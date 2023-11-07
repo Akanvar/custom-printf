@@ -68,7 +68,7 @@ return 0;
 
 int main() 
 {
-	char *path_value = "/usr/local/bin:/usr/bin:/bin"; // Example PATH value
+	/*char *path_value = "/usr/local/bin:/usr/bin:/bin"; // Example PATH value
 	setenv("PATH", path_value, 0); // Set the PATH environment variable
 
 	char *args[] = {"ls", "-l", NULL}; // Command and its arguments
@@ -81,7 +81,15 @@ int main()
 	{
 		perror("execve");
 		return 1;
-	}
+	} */
+	
+	char *path = "I am Kelvin"
+
+	char *patharray;
+	patharray = malloc(sizeof(path));
+	size_t n = sizeof(patharray);
+
+	printf("%lu\n", n);
 
 	return 0;
 }

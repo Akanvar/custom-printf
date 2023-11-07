@@ -22,8 +22,9 @@ int main()
 		getline(&buff, &n, stdin);
 
 		token = strtok(buff, " ");
-		array = malloc(sizeof(char *) * strlen(token));
-
+		array = malloc(sizeof(char *));
+		if (array == NULL)
+			perror("malloc");
 		while (token)
 		{
 			array[i] = token;
