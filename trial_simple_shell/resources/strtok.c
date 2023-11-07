@@ -3,17 +3,18 @@
 
 int main(void)
 {
-	char array[] = "my name is mercy agbasah";
-	char delim[] = " ";
+	char array[] = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
+	char delim[] = ":";
 	char *result;
 
 	result = strtok(array, delim);
+	printf("%s\n", result);
 
-	while (result != NULL)
+/*	while (result != NULL)
 	{
 		 printf("%s\n", result);
 		result = strtok(NULL, delim);
-	}
+	} */
 
 	return (0);
 }
