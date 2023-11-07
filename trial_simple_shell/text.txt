@@ -1,0 +1,64 @@
+STEPS TO CREATE YOUR OWN SHELL
+
+1.DISPLAY PROMPT
+	*function to display prompt
+	*function must be in an infinite loop
+	*
+
+2.READ USER INPUT
+	*use getline to read user input
+	*store input in a buffer
+	*check the return of getline
+		-create a buffer and assign NULL to it
+		-getline to receive input from STDIN
+		-check return of getline
+		
+
+3.PARSING THE COMMAND
+	*strtok with a space as a delimeter(breaking down into command name, arguements , options)
+	*token should be stored in an array or struct
+	*create an array and allocate memory using malloc
+	
+4.CHECK FOR EXIT COMMAND
+	*use strcmp to check if command == "exit\n"
+		-if true, break out of prompt loop
+
+5.SEARCH FOR COMMAND
+	*search for an executable file corresponding to command 
+	*function searches in PATH env variable
+	*create path env variable
+	*use getenv to get PATH env variable
+	*tokenize PATH env variable
+	*snprintf(%s/%s, dir, command)
+	*use access to check if file(command) exits in current directory
+		-if not, move to the next directory
+
+6.CREATING CHILD PROCESSES
+	*if executable file is found, use the fork system call to create a child process
+	*check if work works(0 for success and -1 for error)
+	*if 0 apply execve to execute command
+	*print error message if execve fails
+	*
+
+7.EXECUTE COMMAND USING EXECVE
+	*execve(command_path, arguement, env)
+	*
+
+8. PUT A WAIT ON PARENT PROCESS
+
+9.FREE ALL ALLOCATED MEMORIES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
