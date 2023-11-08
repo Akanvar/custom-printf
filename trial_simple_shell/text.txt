@@ -27,6 +27,8 @@ STEPS TO CREATE YOUR OWN SHELL
 	*search for an executable file corresponding to command 
 	*function searches in PATH env variable
 	*create path env variable
+		-create a char *PATH and assign a directory to it
+		-use setenv to make PATH an env variable
 	*use getenv to get PATH env variable
 	*tokenize PATH env variable
 	*snprintf(%s/%s, dir, command)

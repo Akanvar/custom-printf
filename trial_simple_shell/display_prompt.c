@@ -4,5 +4,5 @@
  */
 void kelm_prompt(void)
 {
-	kelm_print("WELCOME TO THE KELL SHELL ): ~ ");
+	kelmprint("WELCOME TO THE KELL SHELL ): ~ ");
 }
