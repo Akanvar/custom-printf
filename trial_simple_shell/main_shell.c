@@ -12,6 +12,10 @@ int main() {
     char **array = NULL;
     char full_path[1024];
     pid_t pid;
+    char *path_array;
+    char *path;
+   char *path_value; 
+   int token_count;
 
     while (1) {
         kelm_prompt();
@@ -21,7 +25,7 @@ int main() {
         }
 
         token = strtok(buff, " \n");
-        int token_count = 0;
+        token_count = 0;
         while (token) {
             array = realloc(array, (token_count + 1) * sizeof(char *));
             array[token_count++] = token;
@@ -36,30 +40,30 @@ int main() {
             break;
         }
 
-        char *path_value = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
+        path_value = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
         if (setenv("PATH", path_value, 1) != 0)
             perror("setenv");
 
-        char *path = getenv("PATH");
+        path = getenv("PATH");
         if (path == NULL)
             perror("getenv");
 
-        char *path_array = strdup(path);
+        path_array = strdup(path);
         token = strtok(path_array, ":");
         while (token) {
             snprintf(full_path, sizeof(full_path), "%s/%s", token, array[0]);
-            if (access(full_path, F_OK) != -1) {
+          if (access(full_path, F_OK) != -1) {
                 if ((pid = fork()) == -1) {
                     perror("error");
                     exit(EXIT_FAILURE);
                 }
                 if (pid == 0) {
-                    if (execve(full_path, array, NULL) == -1)
+                    if (execve(full_path, array, environ) == -1)
                         perror("error");
-                    exit(EXIT_FAILURE); // In case execve fails
+                    exit(EXIT_FAILURE);
                 } else {
                     wait(NULL);
-                    break; // Breaks the loop for the parent process to re-display the prompt
+                    break;
                 }
             }
             token = strtok(NULL, ":");
