@@ -9,9 +9,11 @@
 
 char *check_prefix(const char *haystack, const char *needle)
 {
-	while (*needle)
+	while (*needle != '\0')
+	{
 		if (*needle++ != *haystack++)
 			return (NULL);
-	*haystack++;
+	}
+	haystack++;
 	return ((char *)haystack);
 }

@@ -32,6 +32,7 @@ int _setenv(info_t *info, char *envVar, char *envVal)
 			free(node->str);
 			node->str = buff;
 			info->env_flag = 1;
+			free(buff);
 			return (0);
 		}
 		node = node->next;

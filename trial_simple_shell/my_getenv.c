@@ -36,7 +36,7 @@ char *_getenv(info_t *info, const char *name)
  * @h: pointer to the first node
  * Return: number of nodes
  */
-size_t print_list(const list_t *h)
+size_t print_envList(const list_t *h)
 {
 	size_t count = 0;
 
