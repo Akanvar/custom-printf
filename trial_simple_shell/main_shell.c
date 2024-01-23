@@ -8,8 +8,9 @@
 int main() {
 	size_t n = 0;
 	char *buff = NULL;
-	char *token = NULL;
-	char **array = NULL;
+	//char *token = NULL;
+	//char **tok = NULL;
+	/*char **array = NULL;*/
 	char full_path[1024];
 	pid_t pid;
 	char *path_array = NULL;
@@ -17,6 +18,7 @@ int main() {
 	char *path_value = NULL; 
 	int token_count;
 	char *envVar = NULL;
+	int i;
 	info_t *info;
 	info = malloc(sizeof(info_t));
 	if (info == NULL)
@@ -30,35 +32,19 @@ int main() {
 		 _setenv(info, "TERM", "xterm-256color");
 		kelm_prompt();
 		if (getline(&buff, &n, stdin) == -1) {
-			free(buff);
+			//free(buff);
 			exit(EXIT_FAILURE);
 		}
-
-		token = strtok(buff, " \n");
-		token_count = 0;
-		while (token) {
-			array = realloc(array, (token_count + 1) * sizeof(char *));
-			array[token_count++] = token;
-			token = strtok(NULL, " \n");
-		}
-		array = realloc(array, (token_count + 1) * sizeof(char *));
-		if (array == NULL)
-		{
-			perror("realloc");
-			exit(EXIT_FAILURE);
-		}
-		array[token_count] = NULL;
-
-		if (strcmp(array[0], "exit") == 0) {
+		char **tok = _strtok(buff, " ");
+		if (strcmp(tok[0], "exit") == 0) {
 			free(buff);
-			free(array);
 			break;
 		}
 		envVar = "PATH";
 		path_value = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
-		if (_setenv(info,envVar, path_value) != 0)
+		if (_setenv(info, envVar, path_value) != 0)
 			perror("_setenv");
-
+		
 		path = _getenv(info, envVar);
 		if (path == NULL)
 			perror("_getenv");
@@ -69,32 +55,38 @@ int main() {
 			perror("strdup");
 			exit(EXIT_FAILURE);
 		}
-		token = strtok(path_array, ":");
-		while (token) {
-			snprintf(full_path, sizeof(full_path), "%s/%s", token, array[0]);
-			if (access(full_path, F_OK) != -1) {
-				if ((pid = fork()) == -1) {
-					perror("error");
-					exit(EXIT_FAILURE);
-				}
+		char **token = _strtok(path_array, ":");
+		int x = 0;
+		while (token[x]) {
+			snprintf(full_path, sizeof(full_path), "%s/%s", token[x], tok[0]);
+			char *fp = strdup(full_path);
+			if (!fp)
+				return -1;
+	//		if (access(fp, X_OK) != -1) {
+			if (stat(fp, &st) == 0) {
+    				if (S_ISREG(st.st_mode)){
+					if ((pid = fork()) == -1) {
+						perror("error");
+						exit(EXIT_FAILURE);
+					}
 				if (pid == 0) {
 					environ = _getenviron(info);
-					if (execve(full_path, array, environ) == -1)
+					if (execve(full_path, tok, environ) == -1)
 						perror("error");
 					exit(EXIT_FAILURE);
 				} else {
 					wait(NULL);
 					break;
+				} 
 				}
 			}
-			token = strtok(NULL, ":");
-		}
-
-		free(path_array);
-		free(array);
-		free(buff);
-		buff = NULL;
-		array = NULL;
+			else
+			{
+				printf("Error code: %d\n", errno);
+				exit(EXIT_FAILURE);
+			}	
+			x++;
+		}	
 	}
 	free_info(info); 
 	return 0;

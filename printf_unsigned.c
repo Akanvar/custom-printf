@@ -12,9 +12,9 @@ int print_u(va_list fmt, flag_t *f)
 
 	n = va_arg(fmt, int);
 
-	if (f->space == 1 && f->plus == 0 && n >= 0)
+	if (f->space == 1 && f->plus == 0)
 		count += _putchar(' ');
-	if (f->plus == 1 && n >= 0)
+	if (f->plus == 1)
 		count += _putchar('+');
 	num = n;
 	while

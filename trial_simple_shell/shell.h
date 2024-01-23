@@ -10,7 +10,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
+struct stat st;
 extern char **environ;
 
 /**
@@ -52,5 +54,7 @@ size_t list_len(const list_t *h);
 char **_getenviron(info_t *info);
 int _setenv(info_t *info, char *envVar, char *envVal);
 void free_info(info_t *info);
+char **_strtok(char *string, char *delim);
+int check_delim(char c, char *delim);
 
 #endif

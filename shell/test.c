@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main() {
+/*int main() {
     char *str = "jdjk:ashdjdajfj";
     char *pt;
     size_t i = 0;
@@ -25,4 +25,11 @@ int main() {
     free(pt); 
     return 0;
 }
+*/
 
+int main()
+{
+	char *p = getenv("PATH");
+	printf("%s\n", p);
+	return 0;
+}
